@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('konten', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
-            $table->text('konten');
+            $table->text('deskripsi');
             $table->enum('kategori', ['informasi', 'dakwah']);
-            $table->string('gambar');
+            $table->string('gambar')->nullable();
             $table->string('file')->nullable();
 
-            $table->foreignId('id_admin')
+             $table->foreignId('id_admin')
+                    ->nullable()
                     ->constrained('admins')
                     ->cascadeOnDelete();
 

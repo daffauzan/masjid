@@ -42,8 +42,15 @@ class adminkonten extends Controller
             'judul'    => 'required|string|max:255',
             'konten'   => 'required',
             'kategori' => 'required|in:informasi,dakwah',
+            'gambar'    => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'file'     => 'nullable|mimes:pdf|max:2048',
         ]);
+
+        $gambarPath = null;
+        if ($request->hasFile('gambar')){
+            $gambarPath = $request->file('gambar')
+                ->store('konten/gambar', 'public');
+        }
 
         $filePath = null;
         if ($request->hasFile('file')) {
@@ -54,9 +61,9 @@ class adminkonten extends Controller
             'judul'     => $request->judul,
             'konten'    => $request->konten,
             'kategori'  => $request->kategori,
+            'gambar'    => $gambarPath,
             'file'      => $filePath,
-            'id_admin'  => auth('admin')->id(), // asumsi pakai guard admin
-            'tanggal'   => now()->toDateString(),
+            'id_admin'  => auth('admin')->id(),
         ]);
 
         return redirect()->route('admin.konten.index')
@@ -92,14 +99,24 @@ class adminkonten extends Controller
             'judul'    => 'required|string|max:255',
             'konten'   => 'required',
             'kategori' => 'required|in:informasi,dakwah',
+            'gambar'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'file'     => 'nullable|mimes:pdf|max:2048',
         ]);
+
+        if ($request->hasFile('gambar')) {
+            if ($konten->gambar) {
+                Storage::disk('public')->delete($konten->gambar);
+            }
+            $konten->gambar = $request->file('gambar')
+                ->store('konten/gambar', 'public');
+        }
 
         if ($request->hasFile('file')) {
             if ($konten->file) {
                 Storage::disk('public')->delete($konten->file);
             }
-            $konten->file = $request->file('file')->store('konten/pdf', 'public');
+            $konten->file = $request->file('file')
+                ->store('konten/pdf', 'public');
         }
 
         $konten->update([

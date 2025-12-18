@@ -6,16 +6,9 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="h3 text-gray-800">Tambah Konten</h1>
-
-    <a href="{{ route('admin.konten.index') }}" class="btn btn-secondary">
-        <i class="fas fa-arrow-left"></i> Kembali
-    </a>
 </div>
 
 <div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Form Konten</h6>
-    </div>
 
     <div class="card-body">
 
@@ -71,12 +64,12 @@
 
             <!-- Gambar -->
             <div class="form-group">
-                <label>Gambar (jpg / png)</label>
+                <label>Gambar (jpg/png Opsional)</label>
                 <input type="file"
                        name="gambar"
                        class="form-control-file @error('gambar') is-invalid @enderror"
                        accept="image/*"
-                       required>
+                       >
 
                 @error('gambar')
                     <div class="text-danger small">{{ $message }}</div>

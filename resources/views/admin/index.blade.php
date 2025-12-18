@@ -16,9 +16,10 @@
                     <tr>
                         <th>No</th>
                         <th>Judul</th>
+                        <th>Deskripsi</th>
+                        <th>Gambar</th>
+                        <th>File</th>
                         <th>Tanggal</th>
-                        <th>Status</th>
-                        <th width="150">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,10 +42,10 @@
                     <tr>
                         <th>No</th>
                         <th>Judul</th>
-                        <th>Penceramah</th>
+                        <th>Deskripsi</th>
+                        <th>Gambar</th>
+                        <th>File</th>
                         <th>Tanggal</th>
-                        <th>Status</th>
-                        <th width="150">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,11 +67,10 @@
                 <thead class="thead-light">
                     <tr>
                         <th>No</th>
-                        <th>Nama Muzakki</th>
+                        <th>Nama</th>
                         <th>Jenis Zakat</th>
                         <th>Jumlah</th>
                         <th>Tanggal</th>
-                        <th width="150">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>

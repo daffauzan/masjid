@@ -15,7 +15,6 @@ class konten extends Model
         'gambar',
         'file',
         'id_admin',
-        'tanggal',
     ];
 
     public function admin() {

@@ -10,13 +10,14 @@ class admin extends Model
 
     protected $fillable = [
         'username',
-        'password',
         'email',
+        'password',
         'no_telp',
     ];
 
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 
     public function konten(){
