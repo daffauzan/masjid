@@ -13,13 +13,19 @@ return new class extends Migration
     {
         Schema::create('zakat', function (Blueprint $table) {
             $table->id();
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('set null');
+
+            $table->foreignId('id_user')
+                ->constrained('users')
+                ->cascadeOnDelete();
+            $table->foreignId('admin_id')
+                ->nullable()
+                ->constrained('admins')
+                ->onDelete('set null');
+
             $table->string('nama_zakat');
             $table->enum('kategori', ['fitrah', 'maal']);
-            $table->text('keterangan');
+            $table->text('keterangan')->nullable();
             $table->decimal('jumlah',15,2);
-            $table->date('tanggal');
             $table->timestamps();
         });
     }

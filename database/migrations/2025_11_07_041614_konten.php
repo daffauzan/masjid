@@ -18,8 +18,11 @@ return new class extends Migration
             $table->enum('kategori', ['informasi', 'dakwah']);
             $table->string('gambar');
             $table->string('file')->nullable();
-            $table->foreign('id_admin')->references('id')->on('admins')->onDelete('cascade');
-            $table->date('tanggal');
+
+            $table->foreignId('id_admin')
+                    ->constrained('admins')
+                    ->cascadeOnDelete();
+
             $table->timestamps();
         });
     }

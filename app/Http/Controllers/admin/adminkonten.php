@@ -3,16 +3,26 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Konten;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class adminkonten extends Controller
 {
+    private function getKontenByKategori(){
+        return [
+            'informasi' => Konten::where('kategori', 'informasi')->latest()->get(),
+            'dakwah' => Konten::where('kategori', 'dakwah')->latest()->get(),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $konten = Konten::latest()->get();
+        return view('admin.konten.index', compact('konten'));
     }
 
     /**
@@ -20,7 +30,7 @@ class adminkonten extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.konten.create');
     }
 
     /**
@@ -28,7 +38,29 @@ class adminkonten extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'judul'    => 'required|string|max:255',
+            'konten'   => 'required',
+            'kategori' => 'required|in:informasi,dakwah',
+            'file'     => 'nullable|mimes:pdf|max:2048',
+        ]);
+
+        $filePath = null;
+        if ($request->hasFile('file')) {
+            $filePath = $request->file('file')->store('konten/pdf', 'public');
+        }
+
+        Konten::create([
+            'judul'     => $request->judul,
+            'konten'    => $request->konten,
+            'kategori'  => $request->kategori,
+            'file'      => $filePath,
+            'id_admin'  => auth('admin')->id(), // asumsi pakai guard admin
+            'tanggal'   => now()->toDateString(),
+        ]);
+
+        return redirect()->route('admin.konten.index')
+                         ->with('success', 'Konten berhasil ditambahkan');
     }
 
     /**
@@ -36,7 +68,8 @@ class adminkonten extends Controller
      */
     public function show(string $id)
     {
-        //
+        $konten = Konten::findOrFail($id);
+        return view('admin.konten.show', compact('konten'));
     }
 
     /**
@@ -44,7 +77,8 @@ class adminkonten extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $konten = Konten::findOrFail($id);
+        return view('admin.konten.edit', compact('konten'));
     }
 
     /**
@@ -52,7 +86,30 @@ class adminkonten extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $konten = Konten::findOrFail($id);
+
+        $request->validate([
+            'judul'    => 'required|string|max:255',
+            'konten'   => 'required',
+            'kategori' => 'required|in:informasi,dakwah',
+            'file'     => 'nullable|mimes:pdf|max:2048',
+        ]);
+
+        if ($request->hasFile('file')) {
+            if ($konten->file) {
+                Storage::disk('public')->delete($konten->file);
+            }
+            $konten->file = $request->file('file')->store('konten/pdf', 'public');
+        }
+
+        $konten->update([
+            'judul'    => $request->judul,
+            'konten'   => $request->konten,
+            'kategori' => $request->kategori,
+        ]);
+
+        return redirect()->route('admin.konten.index')
+            ->with('success', 'Konten berhasil diperbarui');
     }
 
     /**
@@ -60,6 +117,15 @@ class adminkonten extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $konten = Konten::findOrFail($id);
+
+        if ($konten->file) {
+            Storage::disk('public')->delete($konten->file);
+        }
+
+        $konten->delete();
+
+        return redirect()->route('admin.konten.index')
+                         ->with('success', 'Konten berhasil dihapus');
     }
 }
