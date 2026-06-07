@@ -857,6 +857,12 @@ section,
   align-items: center;
   flex-direction: column;
   z-index: 3;
+  pointer-events: none;
+}
+
+.hero .carousel-container a,
+.hero .carousel-container button {
+  pointer-events: auto;
 }
 
 .hero h2 {

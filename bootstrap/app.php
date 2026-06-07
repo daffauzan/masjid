@@ -11,8 +11,16 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Register global middleware
+        $middleware->use([
+            \App\Http\Middleware\SecurityHeaders::class,
+            \App\Http\Middleware\RateLimitMiddleware::class,
+        ]);
+
+        // Register middleware aliases
         $middleware->alias([
             'admin.auth' => \App\Http\Middleware\AdminAuth::class,
+            'user.auth' => \App\Http\Middleware\UserAuth::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -14,11 +14,12 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('admins')->insert([
-            'username' => 'admin1',
+        DB::table('users')->insert([
+            'nama' => 'admin1',
             'password' => Hash::make('admin123'),
             'email' => 'janedoe@example.com',
             'no_telp' => '081234567890',
+            'role' => 'admin',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

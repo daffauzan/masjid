@@ -16,9 +16,14 @@ class AdminAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::guard('admin')->check())
-        {
+        if (!Auth::check()) {
             return redirect()->route('admin.login');
+        }
+
+        $user = Auth::user();
+
+        if (!$user || $user->role !== 'admin') {
+            abort(403, 'Akses ditolak. Hanya admin yang dapat mengakses halaman ini.');
         }
 
         return $next($request);

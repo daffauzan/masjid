@@ -1,10 +1,8 @@
 <?php
 
-use GuzzleHttp\Promise\Create;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Laravel\Prompts\Table;
 
 return new class extends Migration
 {
@@ -19,6 +17,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('email')->unique();
             $table->string('no_telp');
+            $table->enum('role', ['user', 'admin'])->default('user');
+            $table->rememberToken();
             $table->timestamps();
         });
     }

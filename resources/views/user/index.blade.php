@@ -3,6 +3,11 @@
 @section('title', 'Index')
 
 @section('content')
+    @php
+      $isUserLoggedIn = auth()->check() && auth()->user()->role === 'user';
+      $loginUrl = Route::has('login') ? route('login') : route('admin.login');
+      $registerUrl = Route::has('register') ? route('register') : $loginUrl;
+    @endphp
 
     <!-- Hero Section -->
     <section id="hero" class="hero section dark-background">
@@ -10,29 +15,26 @@
       <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
 
         <div class="carousel-item active">
-          <img src="assets/img/hero-carousel/hero-carousel-1.jpg" alt="">
+          <img src="assets/img/masjid.jpg" alt="">
           <div class="carousel-container">
-            <h2>Welcome to Multi<br></h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            <a href="#featured-services" class="btn-get-started">Get Started</a>
+            <h2>Masjid Abaabil<br></h2>
+            <p>Layanan zakat fitrah dan zakat mal terpadu untuk membantu muzakki menghitung kewajiban, melakukan assessment, dan menyalurkan zakat dengan mudah.</p>
           </div>
         </div><!-- End Carousel Item -->
 
         <div class="carousel-item">
-          <img src="assets/img/hero-carousel/hero-carousel-2.jpg" alt="">
+          <img src="assets/img/chandelier.jpg" alt="">
           <div class="carousel-container">
-            <h2>At vero eos et accusamus</h2>
-            <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut.</p>
-            <a href="#featured-services" class="btn-get-started">Get Started</a>
+            <h2>Hitung Zakat Mal Lebih Akurat</h2>
+            <p>Masukkan gaji, tabungan, emas, dan hutang untuk mengetahui status nisab dan estimasi nominal zakat mal yang perlu dibayarkan.</p>
           </div>
         </div><!-- End Carousel Item -->
 
         <div class="carousel-item">
-          <img src="assets/img/hero-carousel/hero-carousel-3.jpg" alt="">
+          <img src="assets/img/podium.jpg" alt="">
           <div class="carousel-container">
-            <h2>Temporibus autem quibusdam</h2>
-            <p>Beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt omnis iste natus error sit voluptatem accusantium.</p>
-            <a href="#featured-services" class="btn-get-started">Get Started</a>
+            <h2>Pembayaran Zakat Transparan</h2>
+            <p>Setelah assessment, pembayaran zakat dapat diproses dengan pencatatan transaksi yang rapi dan mudah ditinjau kembali.</p>
           </div>
         </div><!-- End Carousel Item -->
 
@@ -49,6 +51,56 @@
       </div>
 
     </section><!-- /Hero Section -->
+
+    <section id="assessment" class="services section">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Assessment</h2>
+        <div><span>Periksa Kewajiban</span> <span class="description-title">Zakat Anda</span></div>
+        <div class="mt-3">
+          @if($isUserLoggedIn)
+            <a href="{{ route('user.assessment.create') }}" class="btn btn-success">
+              <i class="bi bi-plus-circle me-1"></i> Buat Assessment
+            </a>
+            <a href="{{ route('user.assessment.index') }}" class="btn btn-outline-success ms-2">
+              <i class="bi bi-clock-history me-1"></i> Riwayat Assessment
+            </a>
+          @else
+            <a href="{{ $loginUrl }}" class="btn btn-success">
+              <i class="bi bi-box-arrow-in-right me-1"></i> Login untuk Assessment
+            </a>
+            <a href="{{ $registerUrl }}" class="btn btn-outline-success ms-2">
+              <i class="bi bi-person-plus me-1"></i> Register Akun
+            </a>
+          @endif
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="service-item position-relative">
+              <div class="icon"><i class="bi bi-calculator"></i></div>
+              <h3>Assessment Mandiri</h3>
+              <p>Isi data finansial untuk menghitung zakat fitrah dan mal berdasarkan parameter terbaru.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-item position-relative">
+              <div class="icon"><i class="bi bi-clipboard-data"></i></div>
+              <h3>Riwayat Tersimpan</h3>
+              <p>Setiap hasil assessment tersimpan sehingga bisa dipantau dan dibandingkan kapan saja.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="service-item position-relative">
+              <div class="icon"><i class="bi bi-shield-check"></i></div>
+              <h3>Lebih Terarah</h3>
+              <p>Membantu muzakki memahami status nisab dan nominal zakat sebelum melakukan pembayaran.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Services Section -->
     <section id="Informasi" class="services section">
@@ -237,140 +289,4 @@
       </div>
 
     </section><!-- /Services Section -->
-
-    <!-- About Section -->
-    <section id="about" class="about section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>About</h2>
-        <div><span>Learn More</span> <span class="description-title">About Us</span></div>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
-            </p>
-            <ul>
-              <li><i class="bi bi-check2-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
-              <li><i class="bi bi-check2-circle"></i> <span>Duis aute irure dolor in reprehenderit in voluptate velit.</span></li>
-              <li><i class="bi bi-check2-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo</span></li>
-            </ul>
-          </div>
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-            <p>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
-            <a href="#" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
-          </div>
-
-        </div>
-
-      </div>
-
-    </section><!-- /About Section -->
-
-    <!-- Stats Section -->
-    <section id="stats" class="stats section">
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-            <i class="bi bi-emoji-smile"></i>
-            <div class="stats-item">
-              <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Happy Clients</p>
-            </div>
-          </div><!-- End Stats Item -->
-
-          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-            <i class="bi bi-journal-richtext"></i>
-            <div class="stats-item">
-              <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Projects</p>
-            </div>
-          </div><!-- End Stats Item -->
-
-          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-            <i class="bi bi-headset"></i>
-            <div class="stats-item">
-              <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Hours Of Support</p>
-            </div>
-          </div><!-- End Stats Item -->
-
-          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-            <i class="bi bi-people"></i>
-            <div class="stats-item">
-              <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Hard Workers</p>
-            </div>
-          </div><!-- End Stats Item -->
-
-        </div>
-
-      </div>
-
-    </section><!-- /Stats Section -->
-
-    <!-- Features Section -->
-    <section id="features" class="features section">
-
-      <div class="container">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
-            <h3>Quasi eaque omnis</h3>
-            <p>Eius non minus autem soluta ut ui labore omnis quisquam corrupti autem odit voluptas quos commodi magnam occaecati.</p>
-            <ul class="list-unstyled">
-              <li><i class="bi bi-check2"></i> <span>Ullamco laboris nisi ut aliquip</span></li>
-              <li><i class="bi bi-check2"></i> <span>Duis aute irure dolor in reprehenderit</span></li>
-              <li><i class="bi bi-check2"></i> <span>Ullamco laboris nisi ut aliquip ex ea</span></li>
-            </ul>
-          </div><!-- End feature item-->
-
-          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <h3>Et nemo dolores consectetur</h3>
-            <p>Ducimus ea quam et occaecati est. Temporibus in soluta labore voluptates aut. Et sit soluta non repellat sed quia dire plovers tradoria</p>
-
-            <ul class="list-unstyled">
-              <li><i class="bi bi-check2"></i> <span>Enim temporibus maiores eligendi</span></li>
-              <li><i class="bi bi-check2"></i> <span>Ut maxime ut quibusdam quam qui</span></li>
-              <li><i class="bi bi-check2"></i> <span>Officiis aspernatur in officiis</span></li>
-            </ul>
-          </div><!-- End feature item-->
-
-          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
-            <h3>Staque laboriosam modi</h3>
-            <p>Velit eos error et dolor omnis voluptates nobis tenetur sed enim nihil vero qui suscipit ipsum at magni. Ipsa architecto consequatur aliquam</p>
-            <ul class="list-unstyled">
-              <li><i class="bi bi-check2"></i> <span>Quis voluptates laboriosam numquam</span></li>
-              <li><i class="bi bi-check2"></i> <span>Debitis eos est est corrupti</span></li>
-            </ul>
-          </div><!-- End feature item-->
-
-          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
-            <h3>Dignissimos suscipit iste</h3>
-            <p>Molestiae occaecati assumenda quia saepe nobis recusandae at dicta ducimus sequi numquam commodi est in consequatur ea magnam quia itaque</p>
-            <ul class="list-unstyled">
-              <li><i class="bi bi-check2"></i> <span>Veritatis qui reprehenderit quis</span></li>
-              <li><i class="bi bi-check2"></i> <span>Accusantium vel numquam sunt minus</span></li>
-              <li><i class="bi bi-check2"></i> <span>Voluptatem pariatur est sationem</span></li>
-            </ul>
-          </div><!-- End feature item-->
-
-        </div>
-
-      </div>
-
-    </section><!-- /Features Section -->
-
-
 @endsection

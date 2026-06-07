@@ -20,13 +20,15 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->foreignId('admin_id')
                 ->nullable()
-                ->constrained('admins')
+                ->constrained('users')
                 ->onDelete('set null');
 
             $table->string('nama_zakat');
             $table->enum('kategori', ['fitrah', 'maal']);
+            $table->unsignedInteger('jumlah_jiwa')->nullable();
             $table->text('keterangan')->nullable();
-            $table->decimal('jumlah',15,2);
+            $table->decimal('jumlah', 15, 2);
+            $table->date('tanggal')->nullable();
             $table->timestamps();
         });
     }

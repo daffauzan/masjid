@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <title>@yield('title', 'Dashboard')</title>
 
@@ -11,6 +12,17 @@
   <link href="{{ asset('assets/admin/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet">
   <link href="{{ asset('assets/admin/css/sb-admin-2.min.css') }}" rel="stylesheet">
+  <style>
+    @media (min-width: 768px) {
+      #accordionSidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        z-index: 10;
+      }
+    }
+  </style>
 </head>
 
 <body id="page-top">
